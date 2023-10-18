@@ -32,7 +32,7 @@ export const addplaylist = async (req, res) => {
         return res.status(200).json({
           data: playlist_data,
           message: "playlist saved successfully",
-          path: "http://localhost:8001/uploads/Movie/",
+          path: process.env.BASE_URL + "/uploads/Movie/",
         });
       }
     }
@@ -52,7 +52,7 @@ export const get_playlist = async (req, res) => {
       return res.status(200).json({
         data: Playlistdata,
         message: "fetch data from Playlist successfully",
-        path: process.env.BASE_URL,
+        path: process.env.BASE_URL + "/uploads/Movie/",
       });
     }
   } catch (error) {
