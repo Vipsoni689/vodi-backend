@@ -71,7 +71,7 @@ export const ADD_Movie = (req, res) => {
         res.status(201).json({
           data: movie_data,
           message: "data add succesfully",
-          path: process.env.BASE_URL + "/uploads/movie/",
+          path: process.env.BASE_URL + "/uploads/Movie/",
         });
       }
     });
@@ -99,7 +99,7 @@ export const getMovies = async (req, res) => {
       return res.status(200).json({
         data: movie_data,
         message: "data add succesfully",
-        path:"https://vodi-backend.onrender.com/uploads/movie/",
+        path:"https://vodi-backend.onrender.com/uploads/Movie/",
         // pagination: {
         //   page,
         //   pageSize,
@@ -125,7 +125,7 @@ export const getsingleMovies = async (req, res) => {
       return res.status(200).json({
         data: movie_data,
         message: "data add succesfully",
-        path: process.env.BASE_URL + "/uploads/movie/",
+        path: process.env.BASE_URL + "/uploads/Movie/",
       });
     }
   } catch (error) {
@@ -192,7 +192,7 @@ export const updateMovies = async (req, res) => {
         return res.status(201).json({
           data: movie,
           message: "data upadate successfully",
-          path: process.env.BASE_URL + "/uploads/movie/",
+          path: process.env.BASE_URL + "/uploads/Movie/",
         });
       }
     });
