@@ -99,7 +99,7 @@ export const getMovies = async (req, res) => {
       return res.status(200).json({
         data: movie_data,
         message: "data add succesfully",
-        path: process.env.BASE_URL + "/uploads/movie/",
+        path:"https://vodi-backend.onrender.com/uploads/movie/",
         // pagination: {
         //   page,
         //   pageSize,
