@@ -33,34 +33,46 @@ export const Signup = async (req, res) => {
   try {
     const uploadFile = upload.single("avatar");
     uploadFile(req, res, async function (err) {
-      if (err) return res.status(400).json({ message: err.message });
-
-      const userdata = await UserModel.findOne({
-        $or: [
-          { email: req.body.email },
-          { username: req.body.username },
-          { email: req.body.email, username: req.body.username },
-        ],
-      });
-      if (userdata) {
-        return res.status(300).json({ message: "user already exists" });
-      }
-      let img = "";
-      if (req.file !== undefined) {
-        img = req.file.filename;
+      if (err) {
+        return res.status(400).json({ message: err.message });
       }
 
-      const newpassword = bcrypt.hashSync(req.body.password, 10);
-      const Userdata = await UserModel.create({
-        ...req.body,
-        password: newpassword,
-        avatar: img,
+      const { email, username, password } = req.body;
+      let existingUser;
+
+      if (email) {
+        existingUser = await UserModel.findOne({ email: email });
+      }
+
+      if (username) {
+        existingUser = await UserModel.findOne({ username: username });
+      }
+
+      if (existingUser) {
+        return res.status(400).json({ message: "User already exists" });
+      }
+
+      let avatar = "";
+
+      if (req.file) {
+        avatar = req.file.filename;
+      }
+
+      const hashedPassword = await bcrypt.hash(password, 10);
+
+      const newUser = new UserModel({
+        email,
+        username,
+        password: hashedPassword,
+        avatar,
       });
+
+      await newUser.save();
 
       return res.status(201).json({
-        data: Userdata,
-        message: "data add succesfully",
-        path: process.env.BASE_URL + "/uploads/users/",
+        data: newUser,
+        message: "Data added successfully",
+        path: process.env.BASE_URL + "/uploads/users/" + avatar,
       });
     });
   } catch (error) {
@@ -69,6 +81,7 @@ export const Signup = async (req, res) => {
     });
   }
 };
+
 //  *******get users *******************
 export const get_users = async (req, res) => {
   try {
